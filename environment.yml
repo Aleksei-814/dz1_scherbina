@@ -1,0 +1,11 @@
+name: dz2_enviroment
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas
+  - requests
+  - pip
+  - pip:
+      - gdown
