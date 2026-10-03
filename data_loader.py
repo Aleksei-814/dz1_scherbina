@@ -1,6 +1,7 @@
 # щербина алексей 2 дз
 import pandas as pd
 import gdown
+import os
 
 def skachivanie():
     ssylka = 'https://drive.google.com/file/d/1BtFPueekTleALZJKeWwrfsnWMtw-BuPj/view?usp=share_link'    # ссылка на таблицу
