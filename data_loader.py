@@ -10,7 +10,7 @@ dspath = os.path.join(base, 'data', 'raw', 'dataset.csv')
 parquetpath = os.path.join(base, 'data', 'processed', 'dataset.parquet')
 
 
-def downloadDF():                      # скачиваем таблицу с гугл диска
+def download_df():                      # скачиваем таблицу с гугл диска
     if not os.path.exists(dspath):
         print('Загрузка датасета ...')
         os.makedirs(os.path.dirname(dspath), exist_ok=True)
@@ -21,7 +21,7 @@ def downloadDF():                      # скачиваем таблицу с г
     data = pd.read_csv(dspath)
     print(data.head(10))
     return data
-def convertDF(df):         #приводим типы колонок к правильным
+def convert_df(df):         #приводим типы колонок к правильным
     df = df.copy()
     missing= ['?', '', 'NA', 'N/A', 'nan', 'None', '-']
     str_cols = ['Source']          #строки
@@ -46,7 +46,7 @@ def parquet_saving(df):                     #сохраним DataFrame в фо�
     print(f'Parquet сохранён: {parquetpath}')
 
 if __name__ == '__main__':
-    data = downloadDF()
-    data = convertDF(data)
+    data = download_df()
+    data = convert_df(data)
     print(data.dtypes)
     parquet_saving(data)
