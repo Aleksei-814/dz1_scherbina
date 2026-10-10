@@ -21,6 +21,8 @@ def download_df():                      # скачиваем таблицу с �
     data = pd.read_csv(dspath)
     print(data.head(10))
     return data
+
+
 def convert_df(df):         #приводим типы колонок к правильным
     df = df.copy()
     missing= ['?', '', 'NA', 'N/A', 'nan', 'None', '-']
@@ -34,11 +36,16 @@ def convert_df(df):         #приводим типы колонок к пра�
     for col in int_cols:
         df[col] = df[col].replace(missing, pd.NA)
         df[col] = pd.to_numeric(df[col]).astype('Int64')
-    float_cols = ['Initial hardness (HRC) - post quenching','Tempering temperature (ºC)','C (%wt)','Mn (%wt)','P (%wt)','S (%wt)','Si (%wt)','Ni (%wt)','Cr (%wt)','Mo (%wt)','V (%wt)','Al (%wt)','Cu (%wt)','Final hardness (HRC) - post tempering',]
+    float_cols = ['Initial hardness (HRC) - post quenching',
+                  'Tempering temperature (ºC)','C (%wt)',
+                  'Mn (%wt)','P (%wt)','S (%wt)','Si (%wt)',
+                  'Ni (%wt)','Cr (%wt)','Mo (%wt)','V (%wt)',
+                  'Al (%wt)','Cu (%wt)','Final hardness (HRC) - post tempering',]
     for col in float_cols:                           #столбцы в которых данные с плавающей точкой
         df[col] = df[col].replace(missing, pd.NA)
         df[col] = pd.to_numeric(df[col]).astype('float64')
     return df
+
 
 def parquet_saving(df):                     #сохраним DataFrame в формате parquet
     os.makedirs(os.path.dirname(parquetpath), exist_ok=True)
