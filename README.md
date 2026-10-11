@@ -1,5 +1,5 @@
 ## Описание проделанной работы
-В ходе выполнения задания был создан скрипт data_loader.py, загружающий датасет с [Google Drive](https://drive.google.com/file/d/1BtFPueekTleALZJKeWwrfsnWMtw-BuPj/view?usp=share_link) и выводящий первые 10 строк из таблицы в консоль.
+В ходе выполнения задания был создан скрипт data_loader.py, загружающий датасет с [Google Drive](https://drive.google.com/file/d/1BtFPueekTleALZJKeWwrfsnWMtw-BuPj/view?usp=share_link) и выводящий первые 10 строк из таблицы в консоль. Также теперь он приводит строки к правильному типу данных
 
 ## Окружение
 Управление окружением и зависимостями было осуществлено при помощи conda.
