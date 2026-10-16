@@ -59,6 +59,6 @@ if __name__ == '__main__':
     pd.set_option('display.max_colwidth', 50)
     pd.set_option('display.width', 200)
     print('\nПервые 15 строк датасета:')
-    print(df.head(20).to_string())
+    print(df.head(15).to_string())
 
     save_csv(df)
