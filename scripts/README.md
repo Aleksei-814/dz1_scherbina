@@ -26,3 +26,4 @@ conda activate dz_environment
 ```bash
 python read_api.py
 ```
+![результат](screenshot.png)
