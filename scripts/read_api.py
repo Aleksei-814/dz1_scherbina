@@ -17,7 +17,7 @@ data_dir= os.path.join(base_dir, 'data')
 csv_path = os.path.join(data_dir, 'earthquakes.csv')
 
 
-def fetch_earthquakes(limit=150, min_mag=3):   #запрос последних 150 магнитуд, что были более заднной минимальной
+def fetch_earthquakes(limit=150, min_mag=3):   #запрос последних 150 событий с магнитудой не ниже заданной
     params = {'format': 'geojson','limit': limit, 'minmagnitude': min_mag, 'orderby': 'time'}
     print(f'Запрос к {API} ...')
     response = requests.get(API, params=params, timeout=60)
