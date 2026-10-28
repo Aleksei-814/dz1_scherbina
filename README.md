@@ -18,3 +18,8 @@ conda activate dz2_enviroment
 ```bash
 python data_loader.py
 ```
+Установка Chromium для Plotly (выполните один раз)
+
+```bash
+plotly_get_chrome -y
+```
