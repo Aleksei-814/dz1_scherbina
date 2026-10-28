@@ -11,7 +11,7 @@ conda env create -f environment.yml
 
 Активация окружения:
 ```bash
-conda activate dz2_enviroment
+conda activate dz2_environment
 ```
 
 Запуск скрипта:
