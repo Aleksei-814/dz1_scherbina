@@ -6,6 +6,9 @@ dependencies:
   - python=3.11
   - pandas
   - pyarrow>=15
+  - requests
+  - plotly>=6.1.1
   - pip
   - pip:
       - gdown
+      - kaleido>=1.0.0
