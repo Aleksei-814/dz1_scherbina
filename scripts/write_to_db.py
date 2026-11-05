@@ -4,7 +4,7 @@ import sqlite3
 from pathlib import Path
 
 import pandas as pd
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, URL
 
 
 # пути файлов
@@ -46,8 +46,9 @@ def read_secret_creds(path: Path, target_db: str) -> dict:
 
 
 def make_engine(creds: dict):
-    url = (f"postgresql+psycopg2://{creds['user']}:{creds['password']}"
-        f"@{creds['url']}:{creds['port']}/{creds['db_name']}")
+    url = URL.create("postgresql+psycopg2",
+    username=creds["user"], password=creds["password"],
+    host=creds["url"], port=creds["port"], database=creds["db_name"])
     return create_engine(url, pool_recycle=3600)
 
 
