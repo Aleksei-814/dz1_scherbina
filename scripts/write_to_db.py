@@ -1,4 +1,4 @@
-# ДЗ 7: Скрипт записи 100 строк датасета в удалённую базу данных.
+# ДЗ 7: cкрипт записи 100 строк датасета в удалённую базу данных
 
 import sqlite3
 from pathlib import Path
@@ -69,7 +69,7 @@ def clean_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# Загрузка датасета
+# подготавливаем датасет к загрузке 
 def load_dataset() -> pd.DataFrame:
     if not dataset_path.exists():
         raise FileNotFoundError(f"Датасет не найден: {dataset_path}. "
@@ -90,6 +90,7 @@ def write_to_db(df: pd.DataFrame, engine, schema: str = "public") -> None:
     print("Готово")
 
 
+# проверяем правильность загрузки нашего датасета в базу данных
 def verify(engine, schema: str = "public") -> None:
     with engine.connect() as conn:
         count = conn.execute(
