@@ -5,6 +5,10 @@ __pycache__/
 *.csv
 *.parquet
 *.pkl
+creds.db
+*.db
+*.sqlite
+*.sqlite3
 
 # C extensions
 *.so
@@ -158,6 +162,7 @@ activemq-data/
 
 # Environments
 .env
+.env.*
 .envrc
 .venv
 env/
