@@ -5,6 +5,13 @@ channels:
 dependencies:
   - python=3.11
   - pandas
+  - pyarrow
   - requests
+  - plotly>=6.1.1
+  - sqlalchemy
+  - jupyter
   - pip
-  
+  - pip:
+      - gdown
+      - kaleido>=1.0.0
+      - psycopg2-binary
