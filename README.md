@@ -20,6 +20,10 @@ conda activate dz_environment
 ```bash
 python data_loader.py
 ```
+Запуск скрипта чтения кредов:
+```bash
+python read_creds.py
+```
 
 Запуск скрипта записи базы данных:
 ```bash
