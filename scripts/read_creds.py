@@ -33,3 +33,4 @@ def read_creds(path: Path, target_db: str = "homeworks") -> dict:
             "db_name": row["db_name"]}
     finally:
         conn.close()
+        
