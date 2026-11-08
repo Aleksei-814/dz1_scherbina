@@ -1,11 +1,11 @@
-# ДЗ 7: cкрипт записи 100 строк датасета в удалённую базу данных
+# ДЗ 7: Скрипт записи 100 строк датасета в удалённую базу данных.
 
-import sqlite3
 from pathlib import Path
 
 import pandas as pd
 from sqlalchemy import create_engine, text, URL
 
+from read_creds import read_creds
 
 # пути файлов
 base= Path(__file__).resolve().parent.parent
@@ -18,35 +18,9 @@ target_db= "homeworks"
 rows= 100
 
 
-# чтение кредов из таблицы файла creds.db
-def read_secret_creds(path: Path, target_db: str) -> dict:
-    if not path.exists():
-        raise FileNotFoundError(f"Файл кредов не найден: {path}")
-    conn= sqlite3.connect(path)
-    conn.row_factory= sqlite3.Row
-    try:
-        cur= conn.cursor()
-        cur.execute("SELECT url, port, user, pass, db_name "
-            "FROM access WHERE db_name = ?", (target_db,))
-        row= cur.fetchone()
-        if not row:
-            cur.execute("SELECT db_name FROM access")
-            available = [r["db_name"] for r in cur.fetchall()]
-            raise RuntimeError(
-                f"В creds.db нет записи с db_name={target_db!r}. "
-                f"Доступные db_name: {available}")
-        return {
-            "url": row["url"],
-            "port": row["port"],
-            "user": row["user"],
-            "password": row["pass"],
-            "db_name": row["db_name"]}
-    finally:
-        conn.close()
-
-
 def make_engine(creds: dict):
-    url = URL.create("postgresql+psycopg2",
+    url = URL.create(
+    "postgresql+psycopg2",
     username=creds["user"], password=creds["password"],
     host=creds["url"], port=creds["port"], database=creds["db_name"])
     return create_engine(url, pool_recycle=3600)
@@ -70,7 +44,7 @@ def clean_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# подготавливаем датасет к загрузке 
+# Загрузка датасета
 def load_dataset() -> pd.DataFrame:
     if not dataset_path.exists():
         raise FileNotFoundError(f"Датасет не найден: {dataset_path}. "
@@ -81,33 +55,55 @@ def load_dataset() -> pd.DataFrame:
     return clean_columns(df.head(rows))
 
 
-def write_to_db(df: pd.DataFrame, engine, schema: str = "public") -> None:
-    print(f"Пишу {len(df)} строк в таблицу {schema}.{name} ...")
-    df.to_sql(name=name,
+def write_to_db(df: pd.DataFrame, engine, schema: str = "public") -> int:
+    print(f"Записываю {len(df)} строк в таблицу {schema}.{name} ...")
+    inserted = df.to_sql(
+        name=name,
         con=engine,
         schema=schema,
         if_exists="replace",
         index=False)
-    print("Готово")
+    print(f"  to_sql вернул: {inserted}")
+    if inserted != len(df):
+        raise RuntimeError(
+            f"to_sql вставил {inserted} строк вместо {len(df)}.")
+    return inserted
 
 
-# проверяем правильность загрузки нашего датасета в базу данных
-def verify(engine, schema: str = "public") -> None:
+def verify(df: pd.DataFrame, engine, schema: str = "public") -> None:
     with engine.connect() as conn:
         count = conn.execute(
-            text(f'select count(*) from {schema}."{name}"')).scalar()
-    print(f"В таблице {schema}.{name} строк: {count}")
+            text(f'SELECT COUNT(*) FROM {schema}."{name}"')).scalar()
+        cols_db = conn.execute(
+            text(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_schema = :schema AND table_name = :table "
+                "ORDER BY ordinal_position"),
+            {"schema": schema, "table": name},).scalars().all()
+
+    print(f"  В таблице {schema}.{name} строк: {count}")
+
     if count != rows:
-        raise RuntimeError(f"Должно быть {rows} строк, а в базе данных {count}")
+        raise RuntimeError(f"Должно быть {rows} строк, а в БД {count}")
+
+    cols_df = list(df.columns)
+    if list(cols_db) != cols_df:
+        raise RuntimeError(
+            "Колонки в БД не совпадают исходным датафреймом.\n"
+            f"  Ожидалось: {cols_df}\n"
+            f"  В БД:      {list(cols_db)}")
+
+    print(f"Проверка успешно пройдена: {count} строк, колонок {len(cols_df)}.")
 
 
 def main() -> None:
-    creds= read_secret_creds(creds_path, target_db)
-    engine= make_engine(creds)
-    df= load_dataset()
+    creds = read_creds(creds_path, target_db)
+    engine = make_engine(creds)
+    df = load_dataset()
     print("Колонки базы данных:", list(df.columns))
-    write_to_db(df, engine)
-    verify(engine)
+    inserted = write_to_db(df, engine)
+    verify(df, engine)
+    print(f"\nФункция выполнена успешно: {inserted} строк записано в {creds['db_name']}.public.{name}")
 
 
 if __name__ == "__main__":
