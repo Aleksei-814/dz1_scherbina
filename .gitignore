@@ -1,10 +1,15 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.pyc
 *.py[codz]
 *$py.class
 *.csv
 *.parquet
 *.pkl
+creds.db
+*.db
+*.sqlite
+*.sqlite3
 
 # C extensions
 *.so
@@ -158,6 +163,7 @@ activemq-data/
 
 # Environments
 .env
+.env.*
 .envrc
 .venv
 env/
