@@ -82,3 +82,8 @@ python -m etl.main transform            # преобразование в parque
 python -m etl.main validate             # валидация данных
 python -m etl.main load --rows 100      # запись данных из parquet в БД
 ```
+
+P,S. Установка Chromium для Plotly для запуска EDA(выполните один раз):
+```bash
+plotly_get_chrome -y
+```
