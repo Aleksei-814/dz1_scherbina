@@ -6,11 +6,10 @@
 
 ## Структура проекта на GitHub:
 ```
-dz1_scherbina/                             # Главная папка проекта
+dz1_scherbina/                          
 │
 ├── src/
 │   ├── api_example/                    # Пример работы с API и сохранения данных
-│   │   │
 │   │   ├── read_api.py                 # Скрипт для обращения к API 
 │   │   ├── screenshot.png              # Результат запуска скрипта
 │   │   └── README.md                   # Описание логики работы с API и шагов получения данных
@@ -83,7 +82,7 @@ python -m etl.main validate             # валидация данных
 python -m etl.main load --rows 100      # запись данных из parquet в БД
 ```
 
-P,S. Установка Chromium для Plotly для запуска EDA(выполните один раз):
+P.S. Установка Chromium для Plotly для запуска EDA(выполните один раз):
 ```bash
 plotly_get_chrome -y
 ```
