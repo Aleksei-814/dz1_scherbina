@@ -12,7 +12,7 @@ def find_project_root() -> Path:     # поиск папки с pyproject.toml, 
     for parent in start.parents:
         if (parent / "pyproject.toml").exists():
             return parent
-    raise FileNotFoundError(f"Не найден pyproject.toml, добавьте pyproject.toml в корень проекта")
+    raise FileNotFoundError("Не найден pyproject.toml, добавьте pyproject.toml в корень проекта")
 
 
 def default_raw_path() -> Path:
