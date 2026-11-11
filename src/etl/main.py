@@ -94,7 +94,7 @@ def do_run(args):
 def main(argv: list[str] | None = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
-    if not 1 <= args.rows <= 100:
+    if not args.command in {"run", "load"} and not 1 <= args.rows <= 100:
         parser.error("--rows должен быть от 1 до 100")
     try:
         if args.command == "extract": do_extract(args)
