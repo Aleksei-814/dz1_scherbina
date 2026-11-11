@@ -7,12 +7,12 @@ URL = "https://drive.google.com/file/d/1BtFPueekTleALZJKeWwrfsnWMtw-BuPj/view?us
 
 
 # ищем корень проекта по наличию окружения
-def find_project_root() -> Path:     # поиск папки с environment.yml, как маркер корня проекта
+def find_project_root() -> Path:     # поиск папки с pyproject.toml, как маркер корня проекта
     start = Path(__file__).resolve()
     for parent in start.parents:
-        if (parent / "environment.yml").exists():
+        if (parent / "pyproject.toml").exists():
             return parent
-    raise FileNotFoundError(f"Не найден environment.yml, добавьте environment.yml в корень проекта")
+    raise FileNotFoundError(f"Не найден pyproject.toml, добавьте pyproject.toml в корень проекта")
 
 
 def default_raw_path() -> Path:
