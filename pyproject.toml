@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etl"
+version = "0.1.0"
+description = "ETL-пайплайн: закалка и отпуск стали"
+requires-python = ">=3.11"
+
+dependencies = ["pandas",
+    		"pyarrow",
+    		"SQLAlchemy",
+    		"psycopg2-binary",
+    		"gdown"]
+
+[project.optional-dependencies]
+dev = ["jupyter",
+       "plotly>=6.1.1",
+       "kaleido>=1.0.0",
+       "requests",
+       "pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
